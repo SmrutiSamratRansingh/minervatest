@@ -27,16 +27,21 @@ class SongsBloc extends Bloc<SongEvents, SongsState> {
     if (event is SearchForSong) {
       for (int i = 0; i < songsList.length; i++) {
         if (event.songName.trim() == songsList[i].title.trim()) {
-          // print(songsList.length);
-          // this.songsList = [];
+          print(songsList.length);
+          List<SingleSongData> tempSongList = songsList;
+          this.songsList = [];
+          print(songsList.length);
 
-          // songsList.add(songsList[i]);
-          // listLength = 1;
-
-          yield NavigateToSingleSong();
+          songsList.add(tempSongList[i]);
+          print(songsList.length);
+          listLength = 1;
         }
       }
-      yield OnError('error');
+      if (songsList.length == 0) {
+        yield OnError('error');
+      } else {
+        yield SongsInitialState();
+      }
     }
   }
 }

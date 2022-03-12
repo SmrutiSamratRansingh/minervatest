@@ -63,6 +63,28 @@ class _SongsListScreenState extends State<SongsListScreen> {
 
           return Column(
             children: [
+              songsList.length != 1
+                  ? TextField(
+                      controller: textController,
+                      decoration: InputDecoration(hintText: 'Enter song name'))
+                  : Container(),
+              songsList.length != 1
+                  ? ElevatedButton(
+                      onPressed: () {
+                        if (textController.text.trim().length != 0) {
+                          BlocProvider.of<SongsBloc>(context)
+                              .add(SearchForSong(textController.text));
+                        }
+                      },
+                      child: Text('Get Song'))
+                  : Container(),
+              songsList.length == 1
+                  ? ElevatedButton(
+                      onPressed: () {
+                        BlocProvider.of<SongsBloc>(context).add(GetAllSongs());
+                      },
+                      child: Text('Get all songs'))
+                  : Container(),
               Expanded(
                 child: ListView.separated(
                   controller: controller,
